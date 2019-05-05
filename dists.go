@@ -1,4 +1,4 @@
-package main
+package gorbi
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 )
 
 // Calculates the dimensions of an hypercube which contains all points
-func hypercubeDims(xs [][]float64) []float64 {
+func HypercubeDims(xs [][]float64) []float64 {
 	coordsMin := []float64{}
 	coordsMax := []float64{}
 
@@ -37,7 +37,7 @@ func hypercubeDims(xs [][]float64) []float64 {
 	return dims
 }
 
-func cdist(xa, xb [][]float64) [][]float64 {
+func Cdist(xa, xb [][]float64) [][]float64 {
 
 	dists := [][]float64{}
 	for _, xi := range xa {
@@ -45,7 +45,7 @@ func cdist(xa, xb [][]float64) [][]float64 {
 		for _, xb := range xb {
 			fmt.Println("xi", xi)
 			fmt.Println("xb", xb)
-			disti = append(disti, euclideanDist(xi, xb))
+			disti = append(disti, EuclideanDist(xi, xb))
 
 		}
 		dists = append(dists, disti)
@@ -53,13 +53,13 @@ func cdist(xa, xb [][]float64) [][]float64 {
 	return dists
 }
 
-func pdist(xa [][]float64) []float64 {
+func Pdist(xa [][]float64) []float64 {
 
 	dists := []float64{}
 	for i, xi := range xa {
 		xin := xa[i+1:]
 		for _, xj := range xin {
-			dists = append(dists, euclideanDist(xi, xj))
+			dists = append(dists, EuclideanDist(xi, xj))
 
 		}
 	}
@@ -67,7 +67,7 @@ func pdist(xa [][]float64) []float64 {
 }
 
 // eucleanDist calculates the euclatean distance between two points in R^n space
-func euclideanDist(pa, pb []float64) float64 {
+func EuclideanDist(pa, pb []float64) float64 {
 	distSqrd := 0.0
 	for i, pai := range pa {
 		distSqrd += math.Pow(pai-pb[i], 2.)
