@@ -1,7 +1,6 @@
 package gorbi
 
 import (
-	"fmt"
 	"math"
 )
 
@@ -23,7 +22,6 @@ func HypercubeDims(xs [][]float64) []float64 {
 			}
 
 			if xin < coordsMin[j] {
-				fmt.Println(xin, coordsMin[j])
 				coordsMin[j] = xin
 			}
 		}
@@ -43,8 +41,6 @@ func Cdist(xa, xb [][]float64) [][]float64 {
 	for _, xi := range xa {
 		disti := []float64{}
 		for _, xb := range xb {
-			fmt.Println("xi", xi)
-			fmt.Println("xb", xb)
 			disti = append(disti, EuclideanDist(xi, xb))
 
 		}

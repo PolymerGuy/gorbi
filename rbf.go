@@ -1,11 +1,9 @@
 package gorbi
 
 import (
-	"fmt"
 	"gonum.org/v1/gonum/floats"
 	"gonum.org/v1/gonum/mat"
 	"math"
-
 )
 
 func multiquadric(epsilon, r float64) float64 {
@@ -47,20 +45,16 @@ type RBF struct {
 
 
 	 diMat := mat.NewDense(n,1,di)
-	 fmt.Println(diMat)
 	 AMat := mat.NewDense(n,n,A)
 	 //AMat.Sub(AMat,eyes)
 
 
-	 fmt.Println(AMat)
 
 	 //
  	nodes := mat.NewDense(n,1,nil)
- 	fmt.Println(nodes)
 
  	nodes.Solve(AMat,diMat)
 //
- 	fmt.Println("Nodes:",nodes)
 return RBF{Xi:xi,
 	Vi:       di,
 	n:        n,
@@ -85,26 +79,17 @@ func (rbf *RBF) ValuesAt(xs [][]float64) *mat.Dense{
 		}
 	}
 
-	fmt.Println("Came this far")
-	fmt.Println("Shape is:",len(A))
-	fmt.Println("Shape is not:",n)
-	fmt.Println("Shape is not:",rbf.n)
+
 
 
 	AMat := mat.NewDense(n,rbf.n,A)
-	fmt.Println("Amat:",AMat)
 
 	vals := mat.NewDense(n,1,nil)
-	nodes := rbf.Nodes.T()
 
 
-	fmt.Println(vals.Dims())
-	fmt.Println(AMat.Dims())
-	fmt.Println(nodes.Dims())
 
 
 	vals.Mul(AMat,rbf.Nodes)
-	fmt.Println("Values are",vals)
 	return vals
 
 }
