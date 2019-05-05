@@ -1,0 +1,13 @@
+language: go
+go:
+  - master
+
+before_install:
+  - go get -t github.com/PolymerGuy/gorbi
+
+script:
+  - go get ./...
+  - go test ./... -race -coverprofile=coverage.txt -covermode=atomic
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
