@@ -1,11 +1,14 @@
 package main
 
 import (
+	"encoding/csv"
 	"fmt"
 	"github.com/PolymerGuy/golmes/maths"
 	"gonum.org/v1/gonum/floats"
 	"gonum.org/v1/gonum/mat"
+	"log"
 	"math"
+	"os"
 )
 
 func multiquadric(epsilon, r float64) float64 {
@@ -85,11 +88,18 @@ func (rbf *RBF) ValuesAt(xs [][]float64) *mat.Dense{
 		}
 	}
 
-	AMat := mat.NewDense(n,n,A)
+	fmt.Println("Came this far")
+	fmt.Println("Shape is:",len(A))
+	fmt.Println("Shape is not:",n)
+	fmt.Println("Shape is not:",rbf.n)
+
+
+	AMat := mat.NewDense(n,rbf.n,A)
 	fmt.Println("Amat:",AMat)
 
 	vals := mat.NewDense(n,1,nil)
 	nodes := rbf.nodes.T()
+
 
 	fmt.Println(vals.Dims())
 	fmt.Println(AMat.Dims())
@@ -143,6 +153,8 @@ func cdist(xa,xb [][]float64)[][]float64{
 	for _, xi := range xa{
 		disti:=[]float64{}
 		for _, xb := range xb{
+			fmt.Println("xi",xi)
+			fmt.Println("xb",xb)
 			disti = append(disti,euclideanDist(xi,xb))
 
 		}
@@ -178,6 +190,27 @@ func euclideanDist(pa,pb []float64)float64{
 }
 
 
+func writeToCsv(data []float64,filename string) {
+	file, err := os.Create(filename)
+	checkError("Cannot create file", err)
+	defer file.Close()
+
+	writer := csv.NewWriter(file)
+	defer writer.Flush()
+
+	for _, value := range data {
+		err := writer.Write([]string{fmt.Sprintf("%f", value)})
+		checkError("Cannot write to file", err)
+	}
+}
+
+func checkError(message string, err error) {
+	if err != nil {
+		log.Fatal(message, err)
+	}
+}
+
+
 
 
 func main(){
@@ -202,12 +235,39 @@ func main(){
 	0.24000631, 0.19443274}
 
 	rbf2 := NewRBF(args,vals)
-	newargs := maths.Linspace(2.3,3.6625,10)
+	argvals := maths.Linspace(2.3,3.6625,100)
 	NewArgs := [][]float64{}
-	NewArgs = append(NewArgs,newargs)
+	for _,arg := range argvals{
+		NewArgs = append(NewArgs,[]float64{arg})
+	}
+//	NewArgs = append(NewArgs,newargs)
+
+
+
+	//NewArgs := [][]float64{{2.3},{2.9},{3.2},{2.6},{3.5},{3.8},{4.1},{3.6625},{3.1},{3.7}}
+
+
+
+	fmt.Println("sfdsdfsdsf")
+	fmt.Println(args[0])
+	fmt.Println(NewArgs[0])
+
+
 
 	newvals := rbf2.ValuesAt(NewArgs)
 	fmt.Println(newvals)
+
+
+
+	writeToCsv(newvals.RawMatrix().Data ,"vals.csv")
+	writeToCsv(argvals ,"args.csv")
+
+
+
+
+
+
+
 
 
 
