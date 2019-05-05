@@ -14,6 +14,9 @@ Multi variate radial basis interpolation in golang
   </p>
 </p>
 
+[![Build Status](https://travis-ci.org/PolymerGuy/gorbi.svg?branch=master)](https://travis-ci.org/PolymerGuy/gorbi)
+[![codecov](https://codecov.io/gh/PolymerGuy/gorbi/branch/master/graph/badge.svg)](https://codecov.io/gh/PolymerGuy/gorbi)
+
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
