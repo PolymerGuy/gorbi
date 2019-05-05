@@ -70,6 +70,38 @@ return RBF{Xi:xi,
 
  }
 
+func (rbf *RBF) ValuesAt(xs [][]float64) *mat.Dense{
+	n := len(xs)
+	//m := len(xs[0])
+
+	r := cdist(xs,rbf.Xi)
+
+	A := []float64{}
+	for _, ri := range r{
+		for _,r := range ri {
+
+			A = append(A, multiquadric(rbf.epsilon, r))
+		}
+	}
+
+	AMat := mat.NewDense(n,n,A)
+	fmt.Println("Amat:",AMat)
+
+	vals := mat.NewDense(n,1,nil)
+	nodes := rbf.nodes.T()
+
+	fmt.Println(vals.Dims())
+	fmt.Println(AMat.Dims())
+	fmt.Println(nodes.Dims())
+
+
+	vals.Mul(AMat,rbf.nodes)
+	fmt.Println("Values are",vals)
+	return vals
+
+}
+
+
 
 // Calculates the dimensions of an hypercube which contains all points
 func hypercubeDims(xs [][]float64) []float64 {
@@ -155,8 +187,9 @@ func main(){
 	pas:= [][]float64{{0,0,0}, {1,1,1}, {2,2,2},{3,3,3}}
 	pav:= []float64{0,1,2,3}
 
-	NewRBF(pas,pav)
+	rbf := NewRBF(pas,pav)
 
+	fmt.Println("Interpolated values:",rbf.ValuesAt(pas))
 
 	fmt.Println(cdist(pas,pas))
 	fmt.Println(pdist(pas))
