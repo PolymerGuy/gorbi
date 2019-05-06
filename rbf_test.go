@@ -122,7 +122,6 @@ func TestNewRBFSTwoArgs(t *testing.T) {
 	vals := []float64{0.79065774, 1.29685888, 1.02364173, 1.00750561, 1.25576945, 2.7319236,
 		2.97238382, 3.22076721, 0.76893489}
 
-
 	rbf2 := NewRBF(args, vals)
 	newvals := rbf2.At(correctArg)
 

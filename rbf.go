@@ -22,7 +22,6 @@ type RBF struct {
 	nodes    *mat.Dense
 }
 
-
 // Constructor for the radial basis interpolator.
 func NewRBF(args [][]float64, values []float64) RBF {
 	// Find the number of points
@@ -47,7 +46,6 @@ func NewRBF(args [][]float64, values []float64) RBF {
 			A = append(A, function(epsilon, r))
 		}
 	}
-
 
 	// Assemble the coordinates and values into matrices and solve for the node values
 	diMat := mat.NewDense(nPts, 1, values)

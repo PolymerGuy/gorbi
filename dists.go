@@ -49,8 +49,6 @@ func Cdist(xa, xb [][]float64) [][]float64 {
 	return dists
 }
 
-
-
 // eucleanDist calculates the euclatean distance between two points in R^n space
 func EuclideanDist(pa, pb []float64) float64 {
 	distSqrd := 0.0
@@ -59,5 +57,3 @@ func EuclideanDist(pa, pb []float64) float64 {
 	}
 	return math.Sqrt(distSqrd)
 }
-
-
