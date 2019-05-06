@@ -6,9 +6,13 @@ import (
 	"math"
 )
 
+
+// Radial basis functions based on the euclidean distance
 func multiquadric(epsilon, r float64) float64 {
 	return math.Sqrt(math.Pow(1.0/epsilon*r,2.0) + 1)
 }
+
+
 
 type RBF struct {
 	Xi [][]float64
