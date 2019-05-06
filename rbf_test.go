@@ -60,11 +60,11 @@ func TestNewRBFSingleArg(t *testing.T) {
 	}
 
 	rbf2 := NewRBF(args, vals)
-	newvals := rbf2.ValuesAt(NewArgs).RawMatrix().Data
+	newvals := rbf2.At(NewArgs)
 
-	epsilonError := math.Abs(correctEpsilon - rbf2.Epsilon)
+	epsilonError := math.Abs(correctEpsilon - rbf2.epsilon)
 	nodesError := correctNodes
-	floats.Sub(nodesError, rbf2.Nodes.RawMatrix().Data)
+	floats.Sub(nodesError, rbf2.nodes.RawMatrix().Data)
 
 	largestError := 0.0
 	for i, newval := range newvals[:] {
@@ -124,11 +124,11 @@ func TestNewRBFSTwoArgs(t *testing.T) {
 
 
 	rbf2 := NewRBF(args, vals)
-	newvals := rbf2.ValuesAt(correctArg).RawMatrix().Data
+	newvals := rbf2.At(correctArg)
 
-	epsilonError := math.Abs(correctEpsilon - rbf2.Epsilon)
+	epsilonError := math.Abs(correctEpsilon - rbf2.epsilon)
 	nodesError := correctNodes
-	floats.Sub(nodesError, rbf2.Nodes.RawMatrix().Data)
+	floats.Sub(nodesError, rbf2.nodes.RawMatrix().Data)
 
 	largestError := 0.0
 	for i, newval := range newvals[:] {

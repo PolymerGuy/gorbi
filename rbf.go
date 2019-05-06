@@ -6,105 +6,87 @@ import (
 	"math"
 )
 
+// Radial basis functions based on the euclidean distance
 func multiquadric(epsilon, r float64) float64 {
-	return math.Sqrt(math.Pow(1.0/epsilon*r,2.0) + 1)
+	return math.Sqrt(math.Pow(1.0/epsilon*r, 2.0) + 1)
 }
 
+// Radial basis interpolator
 type RBF struct {
-	Xi [][]float64
-	Vi []float64
+	xi [][]float64
+	vi []float64
 
 	n        int
-	Epsilon  float64
-	function interface{}
-	Nodes    *mat.Dense
+	epsilon  float64
+	function func(epsilon, r float64) float64
+	nodes    *mat.Dense
 }
 
- func NewRBF(xi [][]float64,di []float64)RBF{
- 	n := len(di)
 
- 	hypercubeDim := HypercubeDims(xi)
- 	epsilon := math.Pow(floats.Prod(hypercubeDim)/float64(n),1./float64(len(hypercubeDim)))
- 	//smooth := 0.0
- 	function := multiquadric
+// Constructor for the radial basis interpolator.
+func NewRBF(args [][]float64, values []float64) RBF {
+	// Find the number of points
+	nPts := len(values)
 
+	// Find the size of the hypercube containing all points, and set epsilon as the average length of the sides
+	hypercubeDim := HypercubeDims(args)
+	epsilon := math.Pow(floats.Prod(hypercubeDim)/float64(nPts), 1./float64(len(hypercubeDim)))
 
- 	r := Cdist(xi,xi)
+	// Set the radial basis function
+	// TODO: Add more basis functions and a nice API for changing basis functions
+	function := multiquadric
 
+	// Calculate the euclidean distance between all points
+	r := Cdist(args, args)
 
- 	A := []float64{}
- 	for _, ri := range r{
- 		for _,r := range ri {
+	// Evaluate the radial basis function for all points and assemble into A
+	A := []float64{}
+	for _, ri := range r {
+		for _, r := range ri {
 
 			A = append(A, function(epsilon, r))
 		}
 	}
 
- 	//eyes := mat.NewDiagDense(n,nil)
-// Skipping the subtraction of eyes
 
+	// Assemble the coordinates and values into matrices and solve for the node values
+	diMat := mat.NewDense(nPts, 1, values)
+	AMat := mat.NewDense(nPts, nPts, A)
+	nodes := mat.NewDense(nPts, 1, nil)
 
-	 diMat := mat.NewDense(n,1,di)
-	 AMat := mat.NewDense(n,n,A)
-	 //AMat.Sub(AMat,eyes)
+	nodes.Solve(AMat, diMat)
 
+	return RBF{xi: args,
+		vi:       values,
+		n:        nPts,
+		epsilon:  epsilon,
+		function: function,
+		nodes:    nodes,
+	}
 
-
-	 //
- 	nodes := mat.NewDense(n,1,nil)
-
- 	nodes.Solve(AMat,diMat)
-//
-return RBF{Xi:xi,
-	Vi:       di,
-	n:        n,
-	Epsilon:  epsilon,
-	function: function,
-	Nodes:    nodes,
 }
 
- }
+// Get the interpolated value at the given coordinate
+func (rbf *RBF) At(xs [][]float64) []float64 {
+	nPts := len(xs)
 
-func (rbf *RBF) ValuesAt(xs [][]float64) *mat.Dense{
-	n := len(xs)
-	//m := len(xs[0])
+	// Determine the distance between the current points and the points of the interpolated field
+	r := Cdist(xs, rbf.xi)
 
-	r := Cdist(xs,rbf.Xi)
-
+	// Evaluate the basis functions for the radial distances
 	A := []float64{}
-	for _, ri := range r{
-		for _,r := range ri {
+	for _, ri := range r {
+		for _, r := range ri {
 
-			A = append(A, multiquadric(rbf.Epsilon, r))
+			A = append(A, multiquadric(rbf.epsilon, r))
 		}
 	}
 
-
-
-
-	AMat := mat.NewDense(n,rbf.n,A)
-
-	vals := mat.NewDense(n,1,nil)
-
-
-
-
-	vals.Mul(AMat,rbf.Nodes)
-	return vals
+	// Assemble into matrices and take the dot product of the values of the radial basis functions
+	// and the node values
+	AMat := mat.NewDense(nPts, rbf.n, A)
+	vals := mat.NewDense(nPts, 1, nil)
+	vals.Mul(AMat, rbf.nodes)
+	return vals.RawMatrix().Data
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

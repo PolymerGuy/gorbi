@@ -14,9 +14,11 @@ Multi variate radial basis interpolation in golang
   </p>
 </p>
 
+
 [![Build Status](https://travis-ci.org/PolymerGuy/gorbi.svg?branch=master)](https://travis-ci.org/PolymerGuy/gorbi)
 [![codecov](https://codecov.io/gh/PolymerGuy/gorbi/branch/master/graph/badge.svg)](https://codecov.io/gh/PolymerGuy/gorbi)
-
+[![Go Report Card](https://goreportcard.com/badge/github.com/PolymerGuy/gorbi)](https://goreportcard.com/report/github.com/PolymerGuy/golmes)
+[![Documentation](https://godoc.org/github.com/PolymerGuy/gorbi?status.svg)](http://godoc.org/github.com/PolymerGuy/golmes)
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -78,3 +80,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 
 
+[license-url]: https://choosealicense.com/licenses/mit
