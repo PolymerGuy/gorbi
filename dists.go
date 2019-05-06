@@ -49,18 +49,7 @@ func Cdist(xa, xb [][]float64) [][]float64 {
 	return dists
 }
 
-func Pdist(xa [][]float64) []float64 {
 
-	dists := []float64{}
-	for i, xi := range xa {
-		xin := xa[i+1:]
-		for _, xj := range xin {
-			dists = append(dists, EuclideanDist(xi, xj))
-
-		}
-	}
-	return dists
-}
 
 // eucleanDist calculates the euclatean distance between two points in R^n space
 func EuclideanDist(pa, pb []float64) float64 {
