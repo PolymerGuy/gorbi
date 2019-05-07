@@ -21,15 +21,15 @@ Multi variate radial basis interpolation in golang
 [![Documentation](https://godoc.org/github.com/PolymerGuy/gorbi?status.svg)](http://godoc.org/github.com/PolymerGuy/gorbi)
 
 ## Getting Started
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+This library is can be used in other projects and the GO compiler and base library is the only thing you need:
 
 ```
-Give examples
+https://golang.org/
 ```
 
 ### Installing
