@@ -33,6 +33,7 @@ func NewRBF(args [][]float64, values []float64) RBF {
 
 	// Set the radial basis function
 	// TODO: Add more basis functions and a nice API for changing basis functions
+
 	function := multiquadric
 
 	// Calculate the euclidean distance between all points

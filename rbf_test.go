@@ -8,7 +8,7 @@ import (
 
 const tol = 1e-6
 
-// This test uses the same input data as used in Scipy and compares the output
+// This tests compares the results to the Scipy implementation, using the same input.
 func TestNewRBFSingleArg(t *testing.T) {
 	var correctVal = []float64{0.49100787, 0.48523129, 0.47952892, 0.47389826, 0.46833554, 0.46283602,
 		0.45739425, 0.4520044, 0.44666051, 0.44135671, 0.43608737, 0.43084723,
@@ -86,12 +86,9 @@ func TestNewRBFSingleArg(t *testing.T) {
 		t.Errorf("The deviation in nodes value is to large")
 	}
 
-	//writeToCsv(newvals ,"vals.csv")
-	//writeToCsv(correctArg ,"args.csv")
-
 }
 
-// This test uses the same input data as used in Scipy and compares the output
+// This tests compares the results to the Scipy implementation, using the same input.
 func TestNewRBFSTwoArgs(t *testing.T) {
 	var correctVal = []float64{1.29685888, 1.0849643, 0.88575242, 0.74510041, 0.72742949, 0.9092057,
 		1.28164769, 1.75256262, 2.24940739, 2.7319236, 1.24244117, 1.03736418,
@@ -148,8 +145,5 @@ func TestNewRBFSTwoArgs(t *testing.T) {
 	if floats.Max(nodesError) > tol {
 		t.Errorf("The deviation in nodes value is to large")
 	}
-
-	//writeToCsv(newvals ,"vals.csv")
-	//writeToCsv(correctArg ,"args.csv")
 
 }
