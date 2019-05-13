@@ -59,7 +59,11 @@ func TestNewRBFSingleArg(t *testing.T) {
 		NewArgs = append(NewArgs, []float64{arg})
 	}
 
-	rbf2 := NewRBF(args, vals)
+	rbf2,err := NewRBF(args, vals)
+	if err != nil{
+		t.Errorf("Could not make a interpolator")
+	}
+
 	newvals := rbf2.At(NewArgs)
 
 	epsilonError := math.Abs(correctEpsilon - rbf2.epsilon)
@@ -119,7 +123,10 @@ func TestNewRBFSTwoArgs(t *testing.T) {
 	vals := []float64{0.79065774, 1.29685888, 1.02364173, 1.00750561, 1.25576945, 2.7319236,
 		2.97238382, 3.22076721, 0.76893489}
 
-	rbf2 := NewRBF(args, vals)
+	rbf2,err := NewRBF(args, vals)
+	if err != nil{
+		t.Errorf("Could not make a interpolator")
+	}
 	newvals := rbf2.At(correctArg)
 
 	epsilonError := math.Abs(correctEpsilon - rbf2.epsilon)

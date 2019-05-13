@@ -1,6 +1,7 @@
 package gorbi
 
 import (
+	"fmt"
 	"gonum.org/v1/gonum/floats"
 	"gonum.org/v1/gonum/mat"
 	"math"
@@ -23,7 +24,7 @@ type RBF struct {
 }
 
 // Constructor for the radial basis interpolator.
-func NewRBF(args [][]float64, values []float64) RBF {
+func NewRBF(args [][]float64, values []float64) (RBF,error ){
 	// Find the number of points
 	nPts := len(values)
 
@@ -53,7 +54,13 @@ func NewRBF(args [][]float64, values []float64) RBF {
 	AMat := mat.NewDense(nPts, nPts, A)
 	nodes := mat.NewDense(nPts, 1, nil)
 
-	nodes.Solve(AMat, diMat)
+	err := nodes.Solve(AMat, diMat)
+	if err != nil{
+		fmt.Println(err)
+		return RBF{},err
+	}
+
+
 
 	return RBF{xi: args,
 		vi:       values,
@@ -61,7 +68,7 @@ func NewRBF(args [][]float64, values []float64) RBF {
 		epsilon:  epsilon,
 		function: function,
 		nodes:    nodes,
-	}
+	},nil
 
 }
 
@@ -89,3 +96,5 @@ func (rbf *RBF) At(xs [][]float64) []float64 {
 	return vals.RawMatrix().Data
 
 }
+
+
